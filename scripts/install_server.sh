@@ -57,7 +57,7 @@ fi
 cd ${SRC_DIR}
 
 # Cleanup
-make clean -j -s
+make clean -j$((`nproc`/2)) -s
 
 # Configure
 if [[ ${CONFIGURE}==YES ]]
@@ -66,6 +66,6 @@ then
 fi
 
 # Build & Install
-make -j -s
-make install -j -s
+make -j$((`nproc`/2)) -s
+make install -j$((`nproc`/2)) -s
 
