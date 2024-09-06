@@ -19,6 +19,11 @@ do
       shift
       ;;
 
+    --user=*)
+      USER="${i#*=}"
+      shift
+      ;;
+
     *)
       # unknown option
       ;;
