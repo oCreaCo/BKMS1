@@ -105,6 +105,17 @@ fi
 # Start Server
 if [[ "${START}" == "YES" ]]
 then
+    PID_FILE="$DATA_DIR/postmaster.pid"
+    if [[ -f "$PID_FILE" ]]; then
+        POSTMASTER_PID=$(head -n 1 "$PID_FILE")
+        if ps -p "$POSTMASTER_PID" > /dev/null; then
+            echo "The PostgreSQL server is already running with PID $POSTMASTER_PID."
+            exit 1
+        else
+            echo "The PID file exists, but no process is found with PID $POSTMASTER_PID. Deleting the stale file."
+            rm "$PID_FILE"
+        fi
+    fi
     ${START_SERVER_SCRIPT} \
       --bin-dir=${BIN_DIR} \
       --data-dir=${DATA_DIR} \
